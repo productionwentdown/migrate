@@ -28,6 +28,8 @@ RUN go build -ldflags "-s -w" -tags '${databases}' -o /migrate
 
 FROM scratch
 
+ARG version
+
 # labels
 LABEL org.label-schema.vcs-url="https://github.com/productionwentdown/migrate"
 LABEL org.label-schema.version=${version}
