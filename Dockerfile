@@ -15,6 +15,6 @@ FROM scratch
 WORKDIR /
 
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
-COPY --from=build /migrate /usr/local/bin/migrate
+COPY --from=build /migrate /migrate
 
-ENTRYPOINT ["/usr/local/bin/migrate"]
+ENTRYPOINT ["/migrate"]
