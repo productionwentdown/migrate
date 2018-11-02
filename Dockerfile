@@ -1,29 +1,25 @@
 FROM golang:1.11-rc-alpine as build
 
 # args
-ARG version="3.5.2"
+ARG version="4.0.2"
 ARG databases="cassandra clickhouse cockroachdb crate mongodb mysql neo4j postgres ql redshift shell spanner sqlite3 stub testing"
 
 # dependencies
 RUN apk add --no-cache git ca-certificates
 
-# build tools: dep
-RUN wget -O /usr/local/bin/dep https://github.com/golang/dep/releases/download/v0.5.0/dep-linux-amd64 && chmod +x /usr/local/bin/dep
-
 # source
-RUN git clone https://github.com/golang-migrate/migrate -b "v${version}" $GOPATH/src/github.com/golang-migrate/migrate
-WORKDIR $GOPATH/src/github.com/golang-migrate/migrate
-RUN git checkout -b "v${version}"
+RUN git clone https://github.com/golang-migrate/migrate -b "v${version}" /src/migrate
+WORKDIR /src/migrate
 
 # dependencies
-WORKDIR $GOPATH/src/github.com/golang-migrate/migrate/cli
-RUN dep ensure
+RUN go get
+WORKDIR /src/migrate/cli
 
 # build
 ENV CGO_ENABLED=0
 ENV GOOS=linux
 ENV GOARCH=amd64
-RUN go build -ldflags "-s -w" -tags '${databases}' -o /migrate
+RUN go build -ldflags "-s -w" -tags "${databases}" -o /migrate
 
 
 FROM scratch
