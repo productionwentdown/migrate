@@ -1,7 +1,7 @@
 FROM golang:1.11-rc-alpine as build
 
 # args
-ARG version="4.0.2"
+ARG version="4.1.0"
 ARG databases="cassandra clickhouse cockroachdb crate mongodb mysql neo4j postgres ql redshift shell spanner sqlite3 stub testing"
 
 # dependencies
