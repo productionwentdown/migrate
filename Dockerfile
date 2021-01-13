@@ -1,4 +1,4 @@
-FROM golang:1.11-rc-alpine as build
+FROM golang:1.15-alpine as build
 
 # args
 ARG version="4.14.1"
